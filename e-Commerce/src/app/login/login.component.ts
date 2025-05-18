@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginServiceService } from '../login-service/login-service.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private loginService: LoginServiceService
   ) {
     this.initializeForm();
   }
@@ -45,10 +47,14 @@ export class LoginComponent {
     console.log(this.loginForm);
     const rqstBody={
       email:this.loginForm.controls['email'].value,
-      //id:this.getId(),
       password: this.loginForm.controls['password'].value,
       
     }
+    //API call
+    this.loginService.getLoginDetails(rqstBody.email).subscribe({
+      next:(resp)=>{},
+      error:(error)=>{}
+    })
     console.log(rqstBody);
     // Form is valid, proceed with login
     //console.log('Login form submitted:', this.loginForm.value);
